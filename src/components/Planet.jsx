@@ -117,7 +117,7 @@ const ATMOSPHERE = {
 export function Planet({ data, timeScale = 1, showOrbits, onClick, isSelected }) {
   const pivotRef = useRef();
   const meshRef = useRef();
-  const angleRef = useRef(Math.random() * Math.PI * 2);
+  const angleRef = useRef((data.distance * 1.61803398875) % (Math.PI * 2));
 
   const texture = useMemo(() => getPlanetTexture(data.id), [data.id]);
 

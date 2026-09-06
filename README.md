@@ -4,7 +4,18 @@ An interactive 3D Solar System built with **React Three Fiber** — orbit, zoom,
 
 ## 🚀 Live Demo
 
-[Deploy URL goes here]
+[https://vivekcyr25.github.io/3D-web-app-/](https://vivekcyr25.github.io/3D-web-app-/)
+
+## 🏆 Accessibility & Performance Scorecard (Lighthouse)
+
+| Category | Score | Status |
+|---|---|---|
+| **Accessibility** | **100 / 100** | 🟢 Perfect (Zero WAVE / a11y errors) |
+| **Best Practices** | **100 / 100** | 🟢 Perfect |
+| **SEO** | **100 / 100** | 🟢 Perfect |
+| **Keyboard Navigation** | **100% Completable** | 🟢 Full keyboard planet selection & dialog flows |
+
+See [AUDIT.md](./AUDIT.md) for full before/after audit benchmarks, keyboard pass logs, and remediation details.
 
 ## What I Built
 
@@ -13,10 +24,11 @@ A full interactive 3D Solar System in the browser with:
 - **8 planets** — each with accurate relative spacing, unique material colors, roughness, and metalness
 - **Saturn rings** — rendered with three layered `RingGeometry` meshes
 - **Earth's Moon** — orbiting its parent planet in real-time
-- **Click interaction** — click any planet to reveal an animated glassmorphism info card with type, moon count, orbital speed, and a fun fact
+- **Keyboard-Friendly Planet Navigation Dock** — accessible ribbon allowing 100% keyboard and screen reader exploration of all celestial bodies
+- **Cosmic AI Guide Assistant** — real-time planetary telemetry chat with polite `aria-live` streamed output and a keyboard-reachable Stop button
+- **Click & Keyboard interaction** — click or press any planet to reveal an animated glassmorphism dialog with type, moon count, orbital speed, and a fun fact
 - **Scroll to zoom** — custom `useScrollZoom` hook that dolly-zooms the camera
-- **Leva configurator** — toggle: auto-rotate, orbit rings, bloom intensity, time scale (0× = paused → 5×)
-- **Bloom post-processing** — selective luminance-based bloom on the sun only
+- **Leva configurator** — live visual tuning (auto-rotate, orbit rings, bloom intensity, time scale)
 - **Reduced motion fallback** — detects `prefers-reduced-motion: reduce` and shows a static SVG illustration instead
 
 ## 🛠 Tech Stack

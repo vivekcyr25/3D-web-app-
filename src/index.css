@@ -1,15 +1,14 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap");
-
 /* ─── Reset & Base ─────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
   --bg: #05071a;
-  --surface: rgba(12, 18, 45, 0.85);
-  --surface-border: rgba(255, 255, 255, 0.08);
-  --text-primary: #e8eaf6;
-  --text-muted: #7986cb;
+  --surface: rgba(12, 18, 45, 0.90);
+  --surface-border: rgba(255, 255, 255, 0.14);
+  --text-primary: #f1f3fa;
+  --text-muted: #a5b4fc;
   --accent: #FDB813;
+  --accent-glow: rgba(253, 184, 19, 0.4);
   --radius: 14px;
   --font-sans: "Inter", system-ui, sans-serif;
   --font-mono: "Space Mono", monospace;
@@ -25,6 +24,47 @@ html, body, #root {
   overflow: hidden;
 }
 
+/* ─── Accessibility Utilities ──────────────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: -60px;
+  left: 16px;
+  z-index: 10000;
+  padding: 10px 16px;
+  background: var(--accent);
+  color: #05071a;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  transition: top 0.2s ease-out;
+}
+
+.skip-link:focus {
+  top: 16px;
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 /* ─── App Layout ───────────────────────────────────────────── */
 .app {
   position: relative;
@@ -35,18 +75,31 @@ html, body, #root {
   overflow: hidden;
 }
 
+.main-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content:focus {
+  outline: none;
+}
+
 /* ─── Header ───────────────────────────────────────────────── */
 .header {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 10;
+  z-index: 30;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 28px;
-  background: linear-gradient(to bottom, rgba(5, 7, 26, 0.95) 0%, transparent 100%);
+  padding: 16px 24px;
+  background: linear-gradient(to bottom, rgba(5, 7, 26, 0.92) 0%, transparent 100%);
   pointer-events: none;
 }
 
@@ -54,6 +107,7 @@ html, body, #root {
   display: flex;
   align-items: center;
   gap: 10px;
+  pointer-events: auto;
 }
 
 .header__icon {
@@ -63,20 +117,27 @@ html, body, #root {
 }
 
 .header__title {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
-  background: linear-gradient(135deg, #FDB813, #FF6A00);
+  letter-spacing: 0.03em;
+  background: linear-gradient(135deg, #FDB813, #FF8C00);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  pointer-events: auto;
+}
+
 .header__hint {
   font-size: 0.72rem;
-  font-weight: 400;
-  color: var(--text-muted);
-  letter-spacing: 0.06em;
+  font-weight: 500;
+  color: #b0bec5;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
@@ -97,16 +158,17 @@ html, body, #root {
   right: 0;
   z-index: 10;
   text-align: center;
-  padding: 12px;
-  font-size: 0.68rem;
-  color: rgba(255, 255, 255, 0.25);
+  padding: 8px 12px;
+  font-size: 0.72rem;
+  color: #b0bec5;
   letter-spacing: 0.03em;
-  background: linear-gradient(to top, rgba(5, 7, 26, 0.8) 0%, transparent 100%);
+  background: linear-gradient(to top, rgba(5, 7, 26, 0.85) 0%, transparent 100%);
   pointer-events: none;
 }
 
 .footer__perf {
-  color: rgba(253, 184, 19, 0.5);
+  color: #ffe082;
+  font-weight: 600;
   font-family: var(--font-mono);
 }
 
@@ -126,7 +188,7 @@ html, body, #root {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.12);
   position: relative;
   animation: spin 1.4s linear infinite;
 }
@@ -149,26 +211,96 @@ html, body, #root {
 }
 
 .loader__text {
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
   letter-spacing: 0.08em;
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
   animation: pulse 1.5s ease-in-out infinite;
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 0.5; }
+  0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
 }
 
-/* ─── Planet Info Card ─────────────────────────────────────── */
+/* ─── Planet Navigation Dock (Accessible Keyboard Ribbon) ─── */
+.planet-dock {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 25;
+  max-width: calc(100vw - 32px);
+  background: rgba(10, 15, 38, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 36px;
+  padding: 6px 10px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+.planet-dock__scroller {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 2px;
+}
+
+.planet-dock__scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.planet-dock__btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 24px;
+  color: #c5cae9;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition);
+}
+
+.planet-dock__btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.planet-dock__btn.is-active {
+  background: rgba(253, 184, 19, 0.18);
+  border-color: var(--accent);
+  color: #ffd54f;
+  box-shadow: 0 0 10px rgba(253, 184, 19, 0.3);
+}
+
+.planet-dock__divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  margin: 0 4px;
+}
+
+.planet-dock__icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* ─── Planet Info Dialog ───────────────────────────────────── */
 .planet-card {
   position: absolute;
-  bottom: 60px;
-  left: 28px;
-  z-index: 20;
-  width: min(340px, calc(100vw - 56px));
+  top: 76px;
+  left: 24px;
+  z-index: 28;
+  width: min(340px, calc(100vw - 48px));
   background: var(--surface);
   border: 1px solid var(--surface-border);
   border-radius: var(--radius);
@@ -177,29 +309,30 @@ html, body, #root {
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.6),
-    0 1px 0 rgba(255, 255, 255, 0.06) inset;
+    0 1px 0 rgba(255, 255, 255, 0.1) inset;
 }
 
 .planet-card__close {
   position: absolute;
   top: 14px;
   right: 14px;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 6px;
-  color: var(--text-muted);
-  width: 28px;
-  height: 28px;
+  color: #e0e0e0;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background var(--transition), color var(--transition);
+  transition: all var(--transition);
 }
+
 .planet-card__close:hover {
-  background: rgba(255, 255, 255, 0.14);
-  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
 }
 
 .planet-card__header {
@@ -216,23 +349,23 @@ html, body, #root {
 }
 
 .planet-card__name {
-  font-size: 1.5rem;
+  font-size: 1.45rem;
   font-weight: 700;
   letter-spacing: 0.01em;
   line-height: 1.1;
   margin-bottom: 5px;
+  color: #ffffff;
 }
 
 .planet-card__badge {
   display: inline-block;
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 2px 8px;
-  border: 1px solid currentColor;
+  padding: 3px 9px;
+  border: 1.5px solid currentColor;
   border-radius: 99px;
-  opacity: 0.85;
 }
 
 .planet-card__stats {
@@ -243,8 +376,8 @@ html, body, #root {
 }
 
 .planet-card__stat {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 8px;
   padding: 10px 8px;
   text-align: center;
@@ -252,8 +385,8 @@ html, body, #root {
 
 .planet-card__stat-label {
   display: block;
-  font-size: 0.6rem;
-  font-weight: 500;
+  font-size: 0.62rem;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-muted);
@@ -269,11 +402,258 @@ html, body, #root {
 }
 
 .planet-card__fact {
-  font-size: 0.78rem;
-  line-height: 1.65;
-  color: rgba(232, 234, 246, 0.72);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: #e0e0e0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding-top: 14px;
+}
+
+/* ─── Cosmic AI Guide (Assistant & Stream) ─────────────────── */
+.ai-guide-launcher {
+  position: absolute;
+  top: 16px;
+  right: 24px;
+  z-index: 35;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(14, 21, 52, 0.9);
+  border: 1px solid rgba(253, 184, 19, 0.4);
+  border-radius: 20px;
+  color: #ffd54f;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 7px 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  transition: all var(--transition);
+}
+
+.ai-guide-launcher:hover {
+  background: rgba(253, 184, 19, 0.2);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+.ai-guide-launcher__icon {
+  font-size: 0.95rem;
+}
+
+.ai-guide-launcher__pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #00e676;
+  box-shadow: 0 0 8px #00e676;
+  animation: pulse 1s infinite;
+}
+
+.ai-guide-panel {
+  position: absolute;
+  top: 68px;
+  right: 24px;
+  z-index: 40;
+  width: min(380px, calc(100vw - 32px));
+  max-height: calc(100vh - 140px);
+  display: flex;
+  flex-direction: column;
+  background: rgba(10, 14, 38, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  overflow: hidden;
+}
+
+.ai-guide-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.ai-guide-panel__title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ai-guide-panel__icon {
+  font-size: 1.3rem;
+}
+
+.ai-guide-panel__title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.ai-guide-panel__status {
+  display: block;
+  font-size: 0.65rem;
+  color: #00e676;
+  font-weight: 600;
+}
+
+.ai-guide-panel__close {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 6px;
+  color: #e0e0e0;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  transition: all var(--transition);
+}
+
+.ai-guide-panel__close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.ai-guide-panel__suggestions {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 8px 14px;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.ai-guide-panel__suggestion-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  color: #c5cae9;
+  font-size: 0.68rem;
+  font-weight: 500;
+  padding: 4px 10px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.ai-guide-panel__suggestion-btn:hover:not(:disabled) {
+  background: rgba(253, 184, 19, 0.15);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+.ai-guide-panel__messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 180px;
+  max-height: 260px;
+}
+
+.ai-guide-msg {
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.ai-guide-msg--assistant {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #f0f4f8;
+}
+
+.ai-guide-msg--user {
+  background: rgba(253, 184, 19, 0.12);
+  border: 1px solid rgba(253, 184, 19, 0.3);
+  color: #ffd54f;
+  align-self: flex-end;
+}
+
+.ai-guide-msg__sender {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.ai-guide-panel__stream-controls {
+  padding: 6px 14px;
+  background: rgba(255, 82, 82, 0.1);
+  border-top: 1px solid rgba(255, 82, 82, 0.2);
+  display: flex;
+  justify-content: center;
+}
+
+.ai-guide-stop-btn {
+  background: #d32f2f;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background var(--transition);
+}
+
+.ai-guide-stop-btn:hover {
+  background: #b71c1c;
+}
+
+.ai-guide-panel__form {
+  display: flex;
+  gap: 8px;
+  padding: 12px 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.ai-guide-panel__input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  color: #ffffff;
+  padding: 8px 12px;
+  font-size: 0.82rem;
+  font-family: inherit;
+}
+
+.ai-guide-panel__input:focus {
+  outline: 2px solid var(--accent);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.ai-guide-panel__send-btn {
+  background: var(--accent);
+  color: #05071a;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 0 14px;
+  cursor: pointer;
+  transition: opacity var(--transition);
+}
+
+.ai-guide-panel__send-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 /* ─── Fallback (reduced motion) ────────────────────────────── */
@@ -300,7 +680,7 @@ html, body, #root {
   text-align: center;
 }
 
-.fallback__text h2 {
+.fallback__text h1 {
   font-size: 1.4rem;
   font-weight: 700;
   margin-bottom: 8px;
@@ -316,32 +696,46 @@ html, body, #root {
   max-width: 380px;
 }
 
-/* ─── Mobile ───────────────────────────────────────────────── */
-@media (max-width: 600px) {
+/* ─── Mobile Responsiveness ────────────────────────────────── */
+@media (max-width: 768px) {
   .header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-    padding: 14px 18px;
+    padding: 12px 16px;
   }
 
-  .header__hint { display: none; }
+  .header__hint {
+    display: none;
+  }
+
+  .ai-guide-launcher {
+    top: 12px;
+    right: 14px;
+    padding: 5px 10px;
+    font-size: 0.72rem;
+  }
+
+  .planet-dock {
+    bottom: 22px;
+    padding: 4px 6px;
+    width: calc(100vw - 20px);
+  }
+
+  .planet-dock__btn {
+    padding: 5px 9px;
+    font-size: 0.72rem;
+  }
 
   .planet-card {
-    bottom: 50px;
-    left: 12px;
-    right: 12px;
+    top: 60px;
+    left: 10px;
+    right: 10px;
+    width: auto;
+    padding: 16px;
+  }
+
+  .ai-guide-panel {
+    top: 54px;
+    left: 10px;
+    right: 10px;
     width: auto;
   }
-
-  .planet-card__stats {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* ─── Leva Overrides ───────────────────────────────────────── */
-:root {
-  --leva-colors-accent1: #FDB813;
-  --leva-colors-accent2: #FF8C00;
-  --leva-colors-accent3: #ffd166;
 }

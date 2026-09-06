@@ -1,8 +1,7 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { EffectComposer, Bloom } from "@react-three/postprocessing";
 
-export function Sun({ bloomIntensity = 1.5 }) {
+export function Sun() {
   const meshRef = useRef();
   const glowRef = useRef();
 

@@ -8,6 +8,7 @@ export function FallbackView() {
         aria-label="Solar System illustration"
         role="img"
       >
+        <title>Solar System illustration with the Sun and eight orbiting planets</title>
         {/* Background */}
         <rect width="800" height="500" fill="#05071a" />
 
@@ -52,7 +53,7 @@ export function FallbackView() {
       </svg>
 
       <div className="fallback__text">
-        <h2>3D Solar System Explorer</h2>
+        <h1>3D Solar System Explorer</h1>
         <p>Enable animations or use a more powerful device to experience the interactive 3D version.</p>
       </div>
     </div>
